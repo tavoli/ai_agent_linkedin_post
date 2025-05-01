@@ -1,6 +1,7 @@
 from dotenv import dotenv_values
 from langchain_openai import ChatOpenAI
 
+
 config = dotenv_values(".env")
 OPENAI_API_KEY = config.get("OPENAI_API_KEY")
 LINKEDIN_PERSON_URN = config.get("LINKEDIN_PERSON_URN")
@@ -11,6 +12,6 @@ if not OPENAI_API_KEY:
 
 llm = ChatOpenAI(
     model="gpt-4o",
-    temperature=0.8,
+    temperature=0,
     api_key=OPENAI_API_KEY
 )

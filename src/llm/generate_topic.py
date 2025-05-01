@@ -1,7 +1,7 @@
-from langchain_openai import ChatOpenAI
 from langchain.prompts import PromptTemplate
 from langchain.schema import SystemMessage, HumanMessage
 from config import llm
+
 
 def generate_topic(recent_topics=None):
     if recent_topics is None:

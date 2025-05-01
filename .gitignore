@@ -58,3 +58,6 @@ poetry.lock
 
 # Pydantic or other compiled schemas
 *.schema.json
+
+# Ignore persistent memory and logs
+data/

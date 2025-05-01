@@ -1,7 +1,7 @@
 from langchain.prompts import PromptTemplate
 from langchain.schema import SystemMessage, HumanMessage
-from langchain_openai import ChatOpenAI
-from config import llm 
+from config import llm
+
 
 def generate_post(topic: str) -> str:
     prompt = PromptTemplate.from_template("""

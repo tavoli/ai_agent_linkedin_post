@@ -10,13 +10,15 @@ def format_linkedin_post(post_text: str, person_urn: str) -> dict:
         dict: JSON payload ready for POST /v2/ugcPosts
     """
 
+    clean_text = post_text.replace("\\n", "\n").replace("\\r", "\r")
+
     return {
         "author": person_urn,
         "lifecycleState": "PUBLISHED",
         "specificContent": {
             "com.linkedin.ugc.ShareContent": {
                 "shareCommentary": {
-                    "text": post_text
+                    "text": clean_text
                 },
                 "shareMediaCategory": "NONE"
             }
