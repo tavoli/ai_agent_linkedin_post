@@ -4,6 +4,8 @@ from langchain.schema import SystemMessage
 
 from tools.post_tool import generate_post_tool, post_to_linkedin_tool
 from tools.trend_tool import fetch_trends_tool, generate_topic_from_trend_tool
+from tools.quality_tool import check_post_relevance_tool
+
 from memory.log import load_logged_topics
 
 from config import llm
@@ -48,6 +50,11 @@ tools = [
         func=generate_post_tool,
         name="generate_post",
         description="Generates a well-formatted LinkedIn post based on a given topic."
+    ),
+    Tool.from_function(
+        func=check_post_relevance_tool,
+        name="check_post_relevance",
+        description="Evaluates a LinkedIn post and decides if it should be published or discarded."
     ),
     Tool.from_function(
         func=post_to_linkedin_tool,
