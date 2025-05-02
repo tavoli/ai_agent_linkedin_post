@@ -1,6 +1,7 @@
 import requests
 from config import LINKEDIN_ACCESS_TOKEN
 
+
 def post_to_linkedin(payload: dict) -> dict:
     if not LINKEDIN_ACCESS_TOKEN:
         raise ValueError("Missing LINKEDIN_ACCESS_TOKEN in .env")

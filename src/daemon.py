@@ -1,34 +1,33 @@
 import schedule
 import time
 from datetime import datetime
-from agent.publisher_agent import publisher_agent
+from runners.run_publisher import run_publisher
+from runners.run_commenter_proc import run_commenter_procedural
 
 
-def run_publisher():
-    print(f"\nRunning at {datetime.now().strftime('%H:%M:%S')}")
-    try:
-        publisher_agent.run("""
-        Fetch the latest frontend trends and generate a post based on one of them.
-
-        After writing the post, use the tool `check_post_relevance` to evaluate it.
-
-        If the result is 'reject', discard the post and try again with a new trend or different angle. You may retry up to 3 times.
-
-        Only publish the post if it passes the relevance check with an 'approve' result.
-
-        Be thoughtful and creative, but avoid posting anything generic or weak.
-        """)
-    except Exception as e:
-        print(f"❌ Error: {e}")
+def log_schedule(title: str):
+    print(f"\n⏱️ {title} at {datetime.now().strftime('%H:%M:%S')}")
 
 
-schedule.every().day.at("08:00").do(run_publisher)
-schedule.every().day.at("11:00").do(run_publisher)
-schedule.every().day.at("14:00").do(run_publisher)
-schedule.every().day.at("17:00").do(run_publisher)
-schedule.every().day.at("20:00").do(run_publisher)
+def schedule_post(hour: str):
+    schedule.every().day.at(hour).do(
+        lambda: (log_schedule("Post"), run_publisher())
+    )
 
-print("Publisher daemon started. Running 5x/day.")
+
+def schedule_comment(hour: str):
+    schedule.every().day.at(hour).do(
+        lambda: (log_schedule("Comment"), run_commenter_procedural())
+    )
+
+
+for hour in ["09:00", "14:00", "19:00"]:
+    schedule_post(hour)
+
+for hour in ["08:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00", "22:00"]:
+    schedule_comment(hour)
+
+print("\n\n🕰️  Daemon started. Waiting for scheduled tasks...")
 
 while True:
     schedule.run_pending()

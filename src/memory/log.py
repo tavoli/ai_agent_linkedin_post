@@ -27,3 +27,17 @@ def load_logged_topics() -> list[str]:
             for line in f.readlines()
             if line.strip()
         ]
+
+
+COMMENT_LOG_PATH = POST_LOG_PATH.parent / "comment_log.jsonl"
+COMMENT_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+
+def log_comment(urn: str, comment: str):
+    entry = {
+        "timestamp": datetime.now().isoformat(),
+        "urn": urn,
+        "comment": comment.strip()
+    }
+    with open(COMMENT_LOG_PATH, "a", encoding="utf-8") as f:
+        f.write(json.dumps(entry, ensure_ascii=False) + "\n")

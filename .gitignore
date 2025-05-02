@@ -61,3 +61,4 @@ poetry.lock
 
 # Ignore persistent memory and logs
 data/
+storage/
